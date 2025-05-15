@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pay with UPI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      width: 300px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .disclaimer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .qr-container {
+      margin-top: 20px;
+    }
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    .form-container {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pay via UPI</h1>
+
+  <div class="form-container">
+    <input type="text" id="customer-name" placeholder="Enter your name" required>
+    <input type="tel" id="customer-phone" placeholder="Enter your phone number" required>
+    <button onclick="payNow()">Pay Now</button>
+  </div>
+
+  <div class="qr-container">
+    <h3>Or scan the QR code</h3>
+    <img id="qr" alt="UPI QR Code" />
+  </div>
+
+  <p class="disclaimer">
+    The "Pay Now" option will only work on smartphones that already have a UPI app installed. 
+    If you are making the payment from a computer, please scan the QR code to complete the payment.
+  </p>
+
+  <script>
+    function payNow() {
+      const name = document.getElementById("customer-name").value.trim();
+      const phone = document.getElementById("customer-phone").value.trim();
+      
+      if (!name || !phone) {
+        alert("Please enter your name and phone number.");
+        return;
+      }
+
+      // Replace 'yourupi@bank' with your actual UPI ID
+      const upiUrl = `upi://pay?pa=9851693495@ptyes&pn=${encodeURIComponent(name)}&am=100.00&cu=INR`;
+      window.location.href = upiUrl;
+    }
+
+    // Generate QR Code
+    const upiUrl = "upi://pay?pa=9851693495@ptyes&am=100.00&cu=INR";
+    const qrImgUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiUrl);
+    document.getElementById("qr").src = qrImgUrl;
+  </script>
+
+</body>
+</html>
